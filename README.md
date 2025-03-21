@@ -14,7 +14,7 @@ A partir do código base disponibilizado, o mesmo deve ser modificado de modo qu
   10. Atualize a função "erro" com as novas opções do menu.
   11. Ao encerrar qualquer programa abaixo, sempre retorne ao menu inicial.
 
-EXIGÊNCIAS DO PROKETO:
+EXIGÊNCIAS DO PROJETO:
   1. Quantos quartos são?
 Todo hotel precisava reservar quartos. 
 Considere que o hotel possui 20 quartos e ao iniciar o programa todos estão livres. 
