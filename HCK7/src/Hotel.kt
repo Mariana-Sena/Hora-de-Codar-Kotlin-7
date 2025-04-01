@@ -28,14 +28,18 @@ fun inicio() {
     println("1. Cadastrar Quartos")
     println("2. Cadastrar Hóspedes")
     println("3. Abastecer Automóveis")
-    println("4. Sair do Hotel ${nomeHotel}")
+    println("4. Agendar Evento")
+    println("5. Manutenção de ar-condicionado")
+    println("6. Sair do Hotel ${nomeHotel}")
 
     val escolha = readln().toIntOrNull()
     when (escolha) {
         1 -> cadastrarQuartos()
-        2 -> cadastrarHospedes()
+        2 -> hospedagens()
         3 -> abastecimentoDeAutomoveis()
-        4 -> sairDoHotel(nome)
+        4 -> agendarEventos()
+        5 -> arCondicionado()
+        6 -> sairDoHotel(nome)
         else -> erro()
     }
 }
