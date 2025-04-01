@@ -1,85 +1,71 @@
-import kotlin.system.exitProcess
+fun hospedagens() {
+    var opcao: Int
 
-fun cadastrarHospedes() {
-    val listaHospedes = mutableListOf(
-        "Carlos Villagran",
-        "Maria Antonieta de las Nieves",
-        "Roberto Gómez Bolaños",
-        "Florinda Meza",
-        "Ramón Valdés",
-        "Rubén Aguirre",
-        "Angelines Fernández",
-        "Edgar Vivar",
-        "Horácio Gómez Bolaños",
-        "Raúl Padilla"
-    )
+    do {
+        println("\nSelecione uma opção:\n 1. Cadastrar Hóspedes\n 2. Pesquisar\n 3. Listar\n 4. Voltar ao início")
+        opcao = readln().toIntOrNull() ?: 0
+
+        when (opcao) {
+            1 -> cadastrarHospedes()
+            2 -> pesquisarHospede()
+            3 -> listarHospedes()
+            4 -> inicio()
+            else -> println("Opção inválida, tente novamente.")
+        }
+    } while (opcao != 4)
+}
+
+val hospedes = mutableListOf<String>()
+
+fun cadastrarHospedes(){
+    println("\nQual o valor padrão da diária?")
+    val diaria = readln().toDoubleOrNull() ?: return
+
+    var gratuidade = 0
+    var meias = 0
+    var total = 0.0
 
     while (true) {
-        println("""Cadastro de Hóspedes
-        Selecione uma opção:
-        1. Cadastrar
-        2. Pesquisar
-        3. Sair""")
+        println("\nQual o nome do Hóspede?")
+        val nome = readln()
+        if (nome == "PARE") break
 
-        val escolha = readln().toIntOrNull()
+        hospedes.add(nome) // Adiciona o nome à lista de hóspedes
 
-        when (escolha) {
-            1 -> cadastrarNovoHospede(listaHospedes)
-            2 -> pesquisarHospede(listaHospedes)
-            3 -> sairCadastroDeHospedes()
-            else -> erroCadastroDeHospedes()
+        println("\nQual a idade do Hóspede?")
+        val idade = readln().toIntOrNull() ?: continue
+
+        print("$nome cadastrada(o) com sucesso.\n")
+
+        if (idade < 6) {
+            println("$nome possui gratuidade.")
+            gratuidade++
+        } else if (idade > 60) {
+            println("$nome paga meia.")
+            meias++
+            total += diaria / 2
+        } else {
+            total += diaria
         }
     }
+    println("\n${nome}, o valor total das hospedagens é: ${total}, ${gratuidade} gratuidade(s); ${meias} meia(s).\n")
 }
 
-fun cadastrarNovoHospede(listaHospedes: MutableList<String>) {
-    println("Cadastro de Hóspedes.\nPor favor, informe o nome da Hóspede:")
-    val novoHospede = readln()
-    listaHospedes.add(novoHospede)
-
-    println("$novoHospede cadastrada com sucesso!")
-    println("Lista de Hóspedes atuais " + listaHospedes)
-
-    // Não é necessário chamar a função cadastrarHospedes(), pois o loop while já está chamando.
-}
-
-fun pesquisarHospede(listaHospedes: MutableList<String>) {
-    println("Pesquisa de Hóspedes.\nPor favor, informe o nome da Hóspede:")
-    val nomeHospede = readln()
-
-    // Se o nome do hóspede estiver na lista, exibir o nome do hóspede.
-    if (listaHospedes.any { it.contains(nomeHospede, ignoreCase = true) }) {
-
-        println("\nEncontramos a(s) hóspede(s):")
-        // filter irá filtrar a lista de hóspedes e exibir apenas os que contém o nome informado.
-        listaHospedes.filter { it.contains(nomeHospede, ignoreCase = true) } // ignoreCase = true fará com que a busca não seja case sensitive.
-            .forEach { println(it) } // forEach irá exibir cada hóspede encontrado.
+fun pesquisarHospede() {
+    println("Qual o nome do Hóspede?")
+    val nome = readln()
+    if (hospedes.contains(nome)) { //verifica se na lista hospede contém o nome inserido
+        println("\nHóspede $nome foi encontrada(o)!")
     } else {
-        println("Não encontramos nenhuma hóspede com esse nome.")
+        println("\nHóspede $nome não foi encontrada(o)!")
     }
 }
 
-fun sairCadastroDeHospedes() {
-    println("Você deseja sair? S/N")
-    val escolha = readln()
-
-    when (escolha.uppercase()) {
-        // uppercase fará o que for digitado ser convertido para maiúsculo por exemplpo x -> X
-        "S" -> {
-            println("Hasta la vista, Baby.")
-            exitProcess(0)
-        }
-        "N" -> {
-            println("Ok, voltando ao início.")
-            cadastrarHospedes()
-        }
-        else -> {
-            println("Desculpe, mas não compreendi.")
-            sairCadastroDeHospedes()
-        }
+fun listarHospedes() {
+    if (hospedes.isEmpty()) {
+        println("\nNenhum hóspede cadastrado.")
+    } else {
+        println("\nLista de hóspedes:")
+        hospedes.forEach { println(it) }
     }
-}
-
-fun erroCadastroDeHospedes() {
-    println("Por favor, informe um número entre 1 e 3.")
 }
