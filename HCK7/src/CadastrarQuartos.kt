@@ -1,53 +1,60 @@
 fun cadastrarQuartos() {
     val quartos = BooleanArray(20) { false }
-    var dias:Int = 0
-    var diaria:Double = 0.0
+    var dias: Int
+    var diaria: Double
 
-
-    print("Qual o valor padrão da diária? ")
+    while (true) {
+        print("\nQual o valor padrão da diária? ")
         diaria = readln().toDouble()
-        if (diaria < 0) {
-            println("Valor inválido.")
-        }
+        if (diaria >= 0) break
+        println("Valor inválido. Por favor, insira um valor positivo.")
+    }
 
+    while (true) {
         print("Quantas diárias serão necessárias? ")
         dias = readln().toInt()
-        if (dias == null || dias < 0 || dias > 30) {
-            println("Valor inválido.")
-        }
+        if (dias in 1..30) break
+        println("Valor inválido. Por favor, insira um número entre 1 e 30.")
+    }
 
-        val valorTotal = diaria * dias
-        println("Total: R$$valorTotal")
+    val valorTotal = diaria * dias
+    println("Total: R$$valorTotal")
 
-        print("Nome do hóspede: ")
-        val nomeHospede = readln()
+    print("Nome do hóspede: ")
+    val nomeHospede = readln()
 
-        println("Número do quartos (1-20):")
     while (true) {
         // Exibe a lista de quartos e seus status
         println("Lista de quartos e suas ocupações:")
         for (i in quartos.indices) {
             val status = if (quartos[i]) "ocupado" else "livre"
-            print("${i + 1} - $status; ")
+            println("${i + 1} - $status")
+        // como os indices dos elementos de um array iniciam a contagem a partir do 0, para que a numeração dos quartos fique correta, é necessário somar 1
         }
-        println("\n")
 
+        // Solicita e valida o número do quarto
+        println("Número do quarto desejado (1-20):")
         val quarto = readln().toIntOrNull()
+
         if (quarto == null || quarto !in 1..20 || quartos[quarto - 1]) {
-            println("Quarto inválido ou ocupado.")
+            println("Quarto inválido ou já ocupado.")
             continue
         }
 
+        // Marca o quarto como ocupado
         quartos[quarto - 1] = true
         println("Reserva confirmada para $nomeHospede, no quarto $quarto.")
 
-        // Adiciona a opção de reservar mais um quarto
-        print("Deseja reservar mais um quarto? (sim/não): ")
-        val resposta = readln().lowercase()
-        if (resposta == "sim") {
+        // Pergunta se deseja realizar outra reserva
+        print("Deseja efetuar outra reserva? (S/N): ")
+        val resposta = readln()
+        if (resposta == "S" || resposta == "s") {
             cadastrarQuartos()
-        }else{
+        }else if(resposta == "N" || resposta == "n"){
+            println("Obrigado! Até a próxima.")
             inicio()
+        }else{
+            println("Por favor, insira uma opção válida.")
         }
     }
 }
